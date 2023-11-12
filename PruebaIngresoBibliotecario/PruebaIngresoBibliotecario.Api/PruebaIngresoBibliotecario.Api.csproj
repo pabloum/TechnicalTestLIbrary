@@ -35,4 +35,15 @@
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PruebaIngresoBibliotecario.Domain\PruebaIngresoBibliotecario.Domain.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PruebaIngresoBibliotecario.Business\PruebaIngresoBibliotecario.Business.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PruebaIngresoBibliotecario.Repository\PruebaIngresoBibliotecario.Repository.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

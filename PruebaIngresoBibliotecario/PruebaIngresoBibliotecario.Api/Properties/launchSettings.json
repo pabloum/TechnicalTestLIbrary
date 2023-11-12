@@ -20,11 +20,10 @@
     "PruebaIngresoBibliotecario.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:44404",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5002;http://localhost:5003"
+      }
     },
     "Docker": {
       "commandName": "Docker",
@@ -34,9 +33,9 @@
         "ASPNETCORE_URLS": "https://+:443;http://+:80",
         "ASPNETCORE_HTTPS_PORT": "44383"
       },
-      "httpPort": 51774,
+      "sslPort": 44383,
       "useSSL": true,
-      "sslPort": 44383
+      "httpPort": 51774
     }
   }
 }
