@@ -30,7 +30,7 @@ namespace PruebaIngresoBibliotecario.Business
 			{
 				LibroId = solicitudPrestamo.Isbn,
 				UsuarioId = solicitudPrestamo.IdentificacionUsuario,
-				FechaDevolucion = DateTime.Now.AddDays(7)
+				FechaDevolucion = CalcularDiasEntrega(solicitudPrestamo.TipoUsuario)
 			};
 
 			var prestamo = await _prestamoRepository.CrearPrestamo(newPrestamo);
@@ -38,9 +38,30 @@ namespace PruebaIngresoBibliotecario.Business
 			return new ReservaExitosa
 			{
 				Id = prestamo.Id,
-				FechaDevolucion = prestamo.FechaDevolucion.ToString()
+				FechaDevolucion = prestamo.FechaDevolucion.ToString("MM/dd/yyyy")
 			};
 		}
+
+		private DateTime CalcularDiasEntrega(TipoUsuarioPrestamo tipoUsuario)
+		{
+            var weekend = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday };
+            var fechaDevolucion = DateTime.Now;
+            int diasPrestamo = tipoUsuario switch
+            {
+                TipoUsuarioPrestamo.AFILIADO => 10,
+                TipoUsuarioPrestamo.EMPLEADO => 8,
+                TipoUsuarioPrestamo.INVITADO => 7,
+                _ => -1,
+            };
+
+            for (int i = 0; i < diasPrestamo;)
+            {
+                fechaDevolucion = fechaDevolucion.AddDays(1);
+                i = (!weekend.Contains(fechaDevolucion.DayOfWeek)) ? ++i : i;
+            }
+
+            return fechaDevolucion;
+        }
     }
 }
 

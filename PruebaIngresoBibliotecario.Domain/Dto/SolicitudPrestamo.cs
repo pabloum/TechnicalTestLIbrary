@@ -5,7 +5,7 @@ namespace PruebaIngresoBibliotecario.Domain
 {
     public class SolicitudPrestamo
 	{
-        [JsonPropertyName("tipoDeUsuario")]
+        [JsonPropertyName("tipoUsuario")]
         public TipoUsuarioPrestamo TipoUsuario { get; set; }
 
         [JsonPropertyName("identificacionUsuario")]
@@ -17,7 +17,9 @@ namespace PruebaIngresoBibliotecario.Domain
 
     public class ReservaExitosa
     {
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
+        [JsonPropertyName("fechaMaximaDevolucion")]
         public string FechaDevolucion { get; set; }
     }
 }
