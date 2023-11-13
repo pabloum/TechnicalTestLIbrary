@@ -7,6 +7,7 @@ namespace PruebaIngresoBibliotecario.Business
 	public interface IPrestamoService
 	{
         Task<ReservaExitosa> CreateLend(SolicitudPrestamo solicitudPrestamo);
+		Task<Reserva> GetPrestamo(Guid prestamoId);
     }
 
 	public class PrestamoService : IPrestamoService
@@ -26,6 +27,20 @@ namespace PruebaIngresoBibliotecario.Business
                 throw new UsuarioConPrestamo(message);
 			}
 
+			if (solicitudPrestamo.TipoUsuario != TipoUsuarioPrestamo.AFILIADO
+				&& solicitudPrestamo.TipoUsuario != TipoUsuarioPrestamo.EMPLEADO
+				&& solicitudPrestamo.TipoUsuario != TipoUsuarioPrestamo.INVITADO)
+			{
+				throw new UsuarioConPrestamo("Tipo de usuario no existe");
+			}
+
+			await _prestamoRepository.CrearUsuario(new Usuario
+			{
+				Id = solicitudPrestamo.IdentificacionUsuario,
+				Nombre = "Random",
+				TipoUsuario = (int)solicitudPrestamo.TipoUsuario
+			});
+
 			var newPrestamo = new Prestamo
 			{
 				LibroId = solicitudPrestamo.Isbn,
@@ -42,7 +57,28 @@ namespace PruebaIngresoBibliotecario.Business
 			};
 		}
 
-		private DateTime CalcularDiasEntrega(TipoUsuarioPrestamo tipoUsuario)
+        public async Task<Reserva> GetPrestamo(Guid prestamoId)
+		{
+			var prestamo = _prestamoRepository.GetPrestamo(prestamoId);
+
+			if (prestamo == null)
+			{
+                var message = $"El prestamo con {prestamoId} no existe";
+                throw new UsuarioConPrestamo(message);
+            }
+
+			return new Reserva
+			{
+				Id = prestamo.Id,
+				IdentificacionUsuario = prestamo.UsuarioId,
+				Isbn = prestamo.LibroId,
+				FechaDevolucion = prestamo.FechaDevolucion.ToString("dd/MM/yyyy"),
+				TipoUsuario = (int)prestamo.Usuario.TipoUsuario
+            };
+		}
+
+
+        private DateTime CalcularDiasEntrega(TipoUsuarioPrestamo tipoUsuario)
 		{
             var weekend = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday };
             var fechaDevolucion = DateTime.Now;

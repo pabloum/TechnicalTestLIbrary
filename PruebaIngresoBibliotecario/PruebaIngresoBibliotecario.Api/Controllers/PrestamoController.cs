@@ -44,5 +44,27 @@ namespace PruebaIngresoBibliotecario.Api.Controllers
             }
         }
 
+        [HttpGet("{idPrestamo}")]
+        public async Task<IActionResult> GetPrestamo(Guid idPrestamo)
+        {
+            try
+            {
+                var prestamo = await _prestamoService.GetPrestamo(idPrestamo);
+                return Ok(prestamo);
+            }
+            catch (UsuarioConPrestamo ex)
+            {
+                return NotFound(new
+                {
+                    mensaje = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+
+        }
+
     }
 }

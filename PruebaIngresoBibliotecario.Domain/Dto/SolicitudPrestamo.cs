@@ -19,6 +19,7 @@ namespace PruebaIngresoBibliotecario.Domain
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
+
         [JsonPropertyName("fechaMaximaDevolucion")]
         public string FechaDevolucion { get; set; }
     }
