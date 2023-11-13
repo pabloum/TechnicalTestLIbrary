@@ -72,7 +72,7 @@ namespace PruebaIngresoBibliotecario.Business
 				Id = prestamo.Id,
 				IdentificacionUsuario = prestamo.UsuarioId,
 				Isbn = prestamo.LibroId,
-				FechaDevolucion = prestamo.FechaDevolucion.ToString("dd/MM/yyyy"),
+				FechaDevolucion = prestamo.FechaDevolucion.ToString("O"),
 				TipoUsuario = (int)prestamo.Usuario.TipoUsuario
             };
 		}
